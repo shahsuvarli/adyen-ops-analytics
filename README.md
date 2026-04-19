@@ -1,43 +1,74 @@
-# Adyen Ops Analytics Dashboard
+# Adyen Ops Analytics — Senior DA Portfolio
 
-A portfolio project built for a Senior Data Analyst interview at Adyen, demonstrating operational analytics across Support, Professional Services, and Supply Chain domains.
+An interactive portfolio dashboard built for a **Senior Data Analyst (Operations Analytics)** interview at Adyen. It covers Adyen as a business and makes the case for why I am the right person for the role.
+
+**Live candidate:** Elvin Shahsuvarli · [linkedin.com/in/shahsuvarli](https://linkedin.com/in/shahsuvarli) · [github.com/shahsuvarli](https://github.com/shahsuvarli)
+
+---
 
 ## What's inside
 
-| File | Purpose |
-|------|---------|
-| `data/generate.py` | Synthetic dataset — 120 merchants, 4,800 tickets, 80,000 transactions with a baked-in March 2025 incident |
-| `sql/core_queries.sql` | 7 production-grade queries: CTEs, `LAG()`, `NTILE()`, `ROWS BETWEEN`, conditional aggregation |
-| `notebooks/anomaly_detection.py` | Z-score + IQR anomaly detection across ticket volume, resolution time, and transaction failure rate |
-| `dashboard/app.py` | 4-tab Streamlit dashboard with Adyen-styled Plotly charts and sidebar filters |
+| Page | Description |
+|------|-------------|
+| **Home** | Welcome page with a menu guide and the "Why Adyen, why now" statement |
+| **Company Overview** | Headcount, global offices, leadership, top merchants, and key milestones |
+| **Financial Highlights** | Revenue, EBITDA, processed volume, take rate, and stock performance |
+| **Market & Competition** | Adyen vs Stripe, PayPal, Worldline, and Block — margins, market share, regional strength |
+| **People & Culture** | Workforce diversity, attrition, Glassdoor ratings, and employer awards |
+| **Why Me?** | Career timeline, skills, side projects, hobbies, and fit for the role |
+
+Each page includes an **Export PDF** button that captures the content and downloads a one-page summary.
+
+---
+
+## Tech stack
+
+| Layer | Tools |
+|-------|-------|
+| Frontend | React 18 + Vite |
+| Charts | Recharts |
+| Routing | React Router v6 |
+| PDF export | jsPDF + html2canvas |
+| Data | Hardcoded public Adyen data in `/src/data/` |
+| Styling | Inline styles (no CSS framework) |
+
+---
 
 ## Quick start
 
 ```bash
-cd adyen-ops-analytics
-pip install -r requirements.txt
-python data/generate.py          # creates data/adyen_ops.db
-streamlit run dashboard/app.py
+cd frontend
+npm install
+npm run dev
 ```
 
-## Dashboard tabs
+Open [http://localhost:5173](http://localhost:5173)
 
-1. **Ticket Trends** — monthly volume, SLA compliance, priority breakdown, category × tier heatmap
-2. **Anomaly Detection** — automated flagging of the March incident with analyst narrative
-3. **Transaction Health** — failure/chargeback rates, payment method outcomes, regional breakdown
-4. **Merchant Risk** — composite risk score, risk matrix scatter, resolution time distributions
+---
 
-## Key analytical finding
+## Project structure
 
-March 2025 shows a **3–5× spike** in `payment_failure` tickets flagged as `critical`. Both Z-score (2.5σ) and IQR methods independently flag the same period. Transaction failure rate has a coincident spike. SLA compliance held at ~67% for critical tickets across all tiers — the structural gap that warrants immediate attention regardless of the incident.
+```
+frontend/
+├── src/
+│   ├── App.jsx                  # Layout, routing, sidebar, PDF button
+│   ├── components/
+│   │   └── ExportPdfButton.jsx  # Reusable PDF export component
+│   ├── data/
+│   │   ├── adyenCompany.js
+│   │   ├── adyenFinancials.js
+│   │   ├── adyenMarket.js
+│   │   └── adyenPeople.js
+│   └── pages/
+│       ├── Home.jsx
+│       ├── CompanyOverview.jsx
+│       ├── FinancialHighlights.jsx
+│       ├── MarketCompetition.jsx
+│       ├── PeopleAndCulture.jsx
+│       └── AboutMe.jsx
+└── package.json
+```
 
-## SQL highlights
+---
 
-- `LAG()` for month-over-month change tracking
-- `NTILE(4)` for merchant load segmentation into quartiles
-- `ROWS BETWEEN 6 PRECEDING AND CURRENT ROW` for 7-day rolling averages
-- Composite risk scoring with weighted escalation and SLA signals
-
-## Tech stack
-
-Python · SQLite · Pandas · NumPy · SciPy · Streamlit · Plotly
+Built specifically for this application — not because it was asked for, but because the best way to show I can turn data into decisions is to actually do it.
