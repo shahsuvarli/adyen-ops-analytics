@@ -2,11 +2,11 @@
 
 An interactive portfolio dashboard built for a **Senior Data Analyst (Operations Analytics)** interview at Adyen. It covers Adyen as a business and makes the case for why I am the right person for the role.
 
-**Live candidate:** Elvin Shahsuvarli · [linkedin.com/in/shahsuvarli](https://linkedin.com/in/shahsuvarli) · [github.com/shahsuvarli](https://github.com/shahsuvarli)
+**Candidate:** Elvin Shahsuvarli · [linkedin.com/in/shahsuvarli](https://linkedin.com/in/shahsuvarli) · [github.com/shahsuvarli](https://github.com/shahsuvarli)
 
 ---
 
-## What's inside
+## Pages
 
 | Page | Description |
 |------|-------------|
@@ -23,13 +23,13 @@ Each page includes an **Export PDF** button that captures the content and downlo
 
 ## Tech stack
 
-| Layer | Tools |
-|-------|-------|
-| Frontend | React 18 + Vite |
+| | |
+|--|--|
+| Framework | React 18 + Vite |
 | Charts | Recharts |
 | Routing | React Router v6 |
 | PDF export | jsPDF + html2canvas |
-| Data | Hardcoded public Adyen data in `/src/data/` |
+| Data | Hardcoded public Adyen data in `src/data/` |
 | Styling | Inline styles (no CSS framework) |
 
 ---
@@ -37,7 +37,6 @@ Each page includes an **Export PDF** button that captures the content and downlo
 ## Quick start
 
 ```bash
-cd frontend
 npm install
 npm run dev
 ```
@@ -49,11 +48,11 @@ Open [http://localhost:5173](http://localhost:5173)
 ## Project structure
 
 ```
-frontend/
 ├── src/
-│   ├── App.jsx                  # Layout, routing, sidebar, PDF button
+│   ├── App.jsx                   # Layout, routing, sidebar, PDF button
+│   ├── index.css                 # Global styles
 │   ├── components/
-│   │   └── ExportPdfButton.jsx  # Reusable PDF export component
+│   │   └── ExportPdfButton.jsx
 │   ├── data/
 │   │   ├── adyenCompany.js
 │   │   ├── adyenFinancials.js
@@ -66,6 +65,7 @@ frontend/
 │       ├── MarketCompetition.jsx
 │       ├── PeopleAndCulture.jsx
 │       └── AboutMe.jsx
+├── index.html
 └── package.json
 ```
 
