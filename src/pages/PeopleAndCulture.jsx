@@ -3,6 +3,7 @@ import {
   Tooltip, Legend, ResponsiveContainer, AreaChart, Area,
   Cell, BarChart,
 } from "recharts";
+import useIsMobile from "../hooks/useIsMobile";
 import {
   headcountGrowth, genderBreakdown, glassdoorRatings,
   topRoles, attrition, tenure, linkedinGrowth,
@@ -51,6 +52,7 @@ function StatTile({ metric, value, sub, color }) {
 
 /* ── main ─────────────────────────────────────────────────── */
 export default function PeopleAndCulture() {
+  const isMobile = useIsMobile();
 
   const currentYear = headcountGrowth[headcountGrowth.length - 1];
   const firstYear   = headcountGrowth[0];
@@ -60,7 +62,7 @@ export default function PeopleAndCulture() {
     <div>
 
       {/* ── 1. Diversity stat strip ───────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 12, marginBottom: 22 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(6,1fr)", gap: 12, marginBottom: 22 }}>
         {diversity.map(d => (
           <StatTile key={d.metric} metric={d.metric} value={d.value} sub={d.sub}
             color={d.metric.includes("Women in lead") ? ORANGE : d.metric.includes("NPS") ? PURPLE : GREEN} />
@@ -68,7 +70,7 @@ export default function PeopleAndCulture() {
       </div>
 
       {/* ── 2. Headcount + department growth ─────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Headcount Growth 2019 – 2024"
           description={`Adyen has grown ${growthPct}% in headcount since 2019. The 2022 hiring surge — 850 new joiners in a single year — was followed by a deliberate slowdown in 2023 to protect margins. New hiring resumed at a measured pace in 2024.`}
@@ -109,7 +111,7 @@ export default function PeopleAndCulture() {
       </div>
 
       {/* ── 3. Gender + Glassdoor ─────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Gender Balance Across Levels"
           description="Adyen sits above the fintech average for women in the workforce (38% vs 28% industry average). Operations and Commercial teams are close to parity. Tech roles remain a known industry-wide gap that Adyen is actively working to close through graduate programs and partnerships."
@@ -173,7 +175,7 @@ export default function PeopleAndCulture() {
       </div>
 
       {/* ── 4. Attrition + Tenure ─────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Staff Attrition — Adyen vs Fintech & Tech Industry Averages"
           description="Adyen consistently retains people better than both the fintech and broader tech industry averages. The 2022 spike coincided with the 'Great Resignation' wave across the industry — Adyen was affected but recovered faster. A low attrition rate reduces recruiting costs and protects institutional knowledge."
@@ -216,7 +218,7 @@ export default function PeopleAndCulture() {
       </div>
 
       {/* ── 5. Hot roles + LinkedIn + Awards ─────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr 1fr", gap: 18 }}>
         <Panel
           title="Fastest-Growing Roles — Open Positions & YoY Growth"
           description="Data Analyst and Data Engineer openings have grown the fastest year-over-year, reflecting Adyen's investment in building internal analytics capability. Risk Analyst hiring is also accelerating as the product expands into new markets."

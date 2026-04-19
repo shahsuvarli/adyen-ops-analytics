@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import ExportPdfButton from "./components/ExportPdfButton";
@@ -47,11 +47,16 @@ export default function App() {
   const page = pathname.replace("/", "") || "home";
   const { title, sub } = PAGE_TITLES[page] ?? PAGE_TITLES["home"];
   const contentRef = useRef(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
     <div className="layout">
-      <nav className="sidebar">
-        <div className="sidebar-logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>adyen<span> ops</span></div>
+      {/* Mobile backdrop */}
+      <div className={`sidebar-backdrop ${sidebarOpen ? "open" : ""}`} onClick={closeSidebar} />
+
+      <nav className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+        <div className="sidebar-logo" onClick={() => { navigate("/home"); closeSidebar(); }} style={{ cursor: "pointer" }}>adyen<span> ops</span></div>
 
         {NAV_SECTIONS.map((section, si) => (
           <div key={section.label}>
@@ -62,7 +67,7 @@ export default function App() {
               <button
                 key={n.id}
                 className={`nav-item ${page === n.id ? "active" : ""}`}
-                onClick={() => navigate(`/${n.id}`)}
+                onClick={() => { navigate(`/${n.id}`); closeSidebar(); }}
               >
                 <span>{n.icon}</span>
                 {n.label}
@@ -78,7 +83,14 @@ export default function App() {
 
       <main className="main">
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 4 }}>
-          <div className="page-title" style={{ margin: 0 }}>{title}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <button className="hamburger" onClick={() => setSidebarOpen(v => !v)} aria-label="Menu">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+            <div className="page-title" style={{ margin: 0 }}>{title}</div>
+          </div>
           {page !== "home" && <ExportPdfButton targetRef={contentRef} filename={`adyen-${page}-summary`} />}
         </div>
         <div className="page-sub">{sub}</div>

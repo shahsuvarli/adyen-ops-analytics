@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import useIsMobile from "../hooks/useIsMobile";
 
 const GREEN  = "#0ABF53";
 const DARK   = "#1A1F36";
@@ -14,6 +15,7 @@ const allPages = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   return (
     <div>
 
@@ -66,7 +68,7 @@ export default function Home() {
         <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 18 }}>
           Click any card to jump straight to that section.
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(5, 1fr)", gap: 12 }}>
           {allPages.map(p => p.featured ? (
             <div
               key={p.id}

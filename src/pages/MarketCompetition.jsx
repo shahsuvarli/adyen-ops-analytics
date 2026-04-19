@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useIsMobile from "../hooks/useIsMobile";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell, PieChart, Pie, Legend,
@@ -42,6 +43,7 @@ const StrengthDot = ({ value }) => {
 
 /* ── main ─────────────────────────────────────────────────── */
 export default function MarketCompetition() {
+  const isMobile = useIsMobile();
   const [strengthView, setStrengthView] = useState("region");
   const strengthData = strengthView === "region" ? regionalStrength : verticalStrength;
   const strengthKey  = strengthView === "region" ? "region" : "vertical";
@@ -63,7 +65,7 @@ export default function MarketCompetition() {
     <div>
 
       {/* ── 1. Competitor card strip ───────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 12, marginBottom: 22 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(5,1fr)", gap: 12, marginBottom: 22 }}>
         {competitors.map(c => (
           <div key={c.name} style={{
             background: c.isAdyen ? `linear-gradient(135deg, ${DARK} 0%, #2D3561 100%)` : "white",
@@ -98,7 +100,7 @@ export default function MarketCompetition() {
       </div>
 
       {/* ── 2. Market share + EBITDA margin ───────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Global Enterprise Payment Processing — Market Share"
           description="Adyen holds approximately 14% of enterprise payment processing volume globally, third behind PayPal and Stripe. The key distinction: Adyen focuses exclusively on large businesses, while PayPal and Stripe serve a much broader mix including consumers and small merchants."
@@ -177,7 +179,7 @@ export default function MarketCompetition() {
       </Panel>
 
       {/* ── 4. Strength matrix + Analyst ──────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Where Each Company Is Strongest"
           description="Adyen dominates in enterprise retail, travel, and marketplaces — high-volume, complex merchants that need a global single platform. Stripe owns the developer and SaaS world. Block and PayPal are strongest with smaller businesses and consumer-facing products."
@@ -264,8 +266,8 @@ export default function MarketCompetition() {
         title="Competitive Positioning — Volume Processed vs Profitability"
         description="The ideal position is top-right: high volume AND high margins. Adyen is the only company in the set that sits there. PayPal and Block process more volume but sacrifice margins to do it. Worldline has reasonable margins but low volume. Stripe is improving but still less profitable than Adyen."
       >
-        <div style={{ display: "flex", gap: 24 }}>
-          <ResponsiveContainer width="70%" height={280}>
+        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 24 }}>
+          <ResponsiveContainer width={isMobile ? "100%" : "70%"} height={280}>
             <ScatterChart margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
               <XAxis dataKey="volume" type="number" name="Volume ($T)" tick={{ fontSize: 11 }}

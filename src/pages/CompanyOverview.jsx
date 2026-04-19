@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useIsMobile from "../hooks/useIsMobile";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell, PieChart, Pie,
@@ -39,6 +40,7 @@ const SECTOR_COLORS = {
 
 /* ── main component ─────────────────────────────────────── */
 export default function CompanyOverview() {
+  const isMobile = useIsMobile();
   const [officeView, setOfficeView] = useState("list"); // list | chart
   const [merchantSort, setMerchantSort] = useState("revenueShare");
   const age = new Date().getFullYear() - company.founded;
@@ -47,7 +49,7 @@ export default function CompanyOverview() {
   return (
     <div>
       {/* ── 1. Company identity strip ──────────────────── */}
-      <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #2D3561 100%)`, borderRadius: 16, padding: "28px 32px", marginBottom: 24, color: "white", display: "flex", gap: 32, alignItems: "center" }}>
+      <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #2D3561 100%)`, borderRadius: 16, padding: "28px 32px", marginBottom: 24, color: "white", display: "flex", flexDirection: isMobile ? "column" : "row", gap: 32, alignItems: isMobile ? "stretch" : "center" }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: GREEN, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>About the company</div>
           <div style={{ fontSize: 30, fontWeight: 800, marginBottom: 8 }}>Adyen N.V.</div>
@@ -58,7 +60,7 @@ export default function CompanyOverview() {
             under the ticker <strong style={{ color: GREEN }}>ADYEN</strong>.
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, minWidth: 340 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14, minWidth: isMobile ? "unset" : 340 }}>
           {[
             { label: "Founded",          val: company.founded },
             { label: "Years Operating",  val: `${age} years` },
@@ -76,7 +78,7 @@ export default function CompanyOverview() {
       </div>
 
       {/* ── 2. Top KPIs ─────────────────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 12, marginBottom: 26 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(7, 1fr)", gap: 12, marginBottom: 26 }}>
         <Stat label="Total Employees"      value={company.totalEmployees.toLocaleString()} sub="as of 2024"           color={GREEN} />
         <Stat label="Processed Volume"     value={`€${company.processedVolume}B`}          sub="in 2023"             color={DARK} />
         <Stat label="Net Revenue"          value={`€${company.netRevenue}B`}                sub="2023"                color="#0077B6" />
@@ -86,7 +88,7 @@ export default function CompanyOverview() {
         <Stat label="Platform Uptime"      value={`${company.uptime}%`}                     sub="five-nines reliability" color={GREEN} />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, marginBottom: 26 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 22, marginBottom: 26 }}>
 
         {/* ── 3. Global offices ──────────────────────────── */}
         <Section
@@ -103,7 +105,7 @@ export default function CompanyOverview() {
           </div>
 
           {officeView === "list" ? (
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 8 }}>
               {offices.map(o => (
                 <div key={o.city} style={{ display: "flex", alignItems: "center", gap: 10, background: o.isHQ ? "#F0FDF4" : "#F8FAFC", border: `1px solid ${o.isHQ ? "#BBF7D0" : "#E2E8F0"}`, borderRadius: 8, padding: "10px 12px" }}>
                   <span style={{ fontSize: 22 }}>{o.flag}</span>
@@ -229,7 +231,7 @@ export default function CompanyOverview() {
       </Section>
 
       {/* ── 6. Leadership + Timeline in 2 columns ──────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 22 }}>
 
         <Section
           title="Senior Leadership"

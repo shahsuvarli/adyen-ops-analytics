@@ -3,6 +3,7 @@ import {
   Legend, ResponsiveContainer, PieChart, Pie, Cell,
   BarChart, AreaChart, Area, ReferenceLine,
 } from "recharts";
+import useIsMobile from "../hooks/useIsMobile";
 import {
   annualRevenue, processedVolume, takeRate,
   revenueByRegion, revenueByChannel, costStructure,
@@ -54,6 +55,7 @@ const CustomTooltip = ({ active, payload, label, unit = "" }) => {
 
 /* ── main ─────────────────────────────────────────────────── */
 export default function FinancialHighlights() {
+  const isMobile = useIsMobile();
 
   const RADIAN = Math.PI / 180;
   const renderPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, pct, region }) => {
@@ -71,14 +73,14 @@ export default function FinancialHighlights() {
     <div>
 
       {/* ── 1. Efficiency KPI tiles ────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 12, marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(6,1fr)", gap: 12, marginBottom: 24 }}>
         {efficiencyKpis.map(k => (
           <Block key={k.label} label={k.label} value={k.value} sub={k.sub} color={k.color} />
         ))}
       </div>
 
       {/* ── 2. Revenue growth + EBITDA ────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Annual Revenue & Profitability (€B)"
           description="Net revenue has grown at a 25% CAGR since 2020. The 2022 slowdown — when growth dropped from 37% to 11% — triggered a major stock selloff, but profitability never deteriorated. EBITDA margins held above 40% throughout."
@@ -114,7 +116,7 @@ export default function FinancialHighlights() {
               <Area type="monotone" dataKey="netIncome" name="Net Income (€B)" fill={GREEN} fillOpacity={0.15} stroke={GREEN} strokeWidth={2.5} dot={{ r: 4, fill: GREEN }} />
             </AreaChart>
           </ResponsiveContainer>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginTop: 12 }}>
             {annualRevenue.map(r => (
               <div key={r.year} style={{ background: "#F8FAFC", borderRadius: 8, padding: "8px 12px", textAlign: "center" }}>
                 <div style={{ fontSize: 11, color: "var(--muted)" }}>{r.year}</div>
@@ -127,7 +129,7 @@ export default function FinancialHighlights() {
       </div>
 
       {/* ── 3. Volume vs Revenue + Take rate ─────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Processed Volume vs Revenue Growth"
           description="Volume (how much money flows through Adyen) grows much faster than revenue. This is because Adyen earns a small percentage of each payment — so doubling volume does not double revenue. The gap between the two lines tells the take-rate compression story."
@@ -166,7 +168,7 @@ export default function FinancialHighlights() {
       </div>
 
       {/* ── 4. Region + Channel ───────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 18, marginBottom: 18 }}>
         <Panel
           title="Revenue by Region"
           description="Europe remains the core market — Adyen's home ground — but North America is the fastest-growing region and the biggest long-term opportunity. Asia-Pacific and Latin America are still early stage."
@@ -227,7 +229,7 @@ export default function FinancialHighlights() {
       </div>
 
       {/* ── 5. Cost structure + Stock milestones ──────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 18 }}>
         <Panel
           title="Cost Structure — As % of Revenue"
           description="Employee costs dominate, as expected for a tech company. What stands out is how the total cost base has stayed lean even as headcount grew — a sign of strong operational leverage. Sales & marketing is low because Adyen relies on reputation over advertising."

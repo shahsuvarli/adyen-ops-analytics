@@ -119,3 +119,49 @@ tr:hover td { background: #F8FAFC; }
 .narrative strong { color: #14532D; }
 
 .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); }
+
+/* Hamburger button */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--dark);
+  flex-shrink: 0;
+}
+
+/* Sidebar backdrop */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 9;
+}
+
+/* ── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    width: 240px;
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .sidebar-backdrop { display: block; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .sidebar-backdrop.open { opacity: 1; pointer-events: all; }
+
+  .main {
+    margin-left: 0;
+    width: 100vw;
+    padding: 16px;
+  }
+
+  .hamburger { display: flex; align-items: center; }
+
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .grid-2, .grid-3, .grid-3-1 { grid-template-columns: 1fr; }
+
+  .page-title { font-size: 18px; }
+}

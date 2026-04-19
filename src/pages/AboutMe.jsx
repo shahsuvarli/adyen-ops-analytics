@@ -1,3 +1,5 @@
+import useIsMobile from "../hooks/useIsMobile";
+
 const GREEN  = "#0ABF53";
 const DARK   = "#1A1F36";
 const BLUE   = "#0077B6";
@@ -197,12 +199,13 @@ function hl(text) {
 }
 
 export default function AboutMe() {
+  const isMobile = useIsMobile();
 
   return (
     <div>
 
       {/* ── Hero ─────────────────────────────────────── */}
-      <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #2D3561 100%)`, borderRadius: 16, padding: "32px 36px", marginBottom: 22, color: "white", display: "flex", gap: 32, alignItems: "center" }}>
+      <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #2D3561 100%)`, borderRadius: 16, padding: "32px 36px", marginBottom: 22, color: "white", display: "flex", flexDirection: isMobile ? "column" : "row", gap: 32, alignItems: isMobile ? "stretch" : "center" }}>
         <img
           src="https://avatars.githubusercontent.com/u/46631807?v=4"
           alt="Elvin Shahsuvarli"
@@ -283,7 +286,7 @@ export default function AboutMe() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: 18, marginBottom: 18 }}>
 
         {/* ── Experience ────────────────────────────── */}
         <div style={{ background: "white", borderRadius: 12, border: "1px solid #E2E8F0", padding: "20px 22px" }}>
@@ -394,14 +397,14 @@ export default function AboutMe() {
       </div>
 
       {/* ── Hobbies + Side Projects ───────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 18, marginBottom: 18 }}>
 
         {/* Hobbies */}
         <div style={{ background: "white", borderRadius: 12, border: "1px solid #E2E8F0", padding: "20px 22px" }}>
           <div style={{ marginBottom: 12 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: DARK }}>Hobbies & Interests</div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
             {[
               { icon: "👨‍👩‍👦", title: "Family & Friends", desc: "Spending quality time with family and friends — including helping with my wife's YouTube channel on ideas, filming, and production.", link: "https://www.youtube.com/@ayselshah/videos", linkLabel: "Watch channel →" },
               { icon: "📚", title: "Reading", desc: "Primarily interested in books about the human body, medicine, and history — always curious about how things work at a deeper level.", link: "https://www.goodreads.com/user/show/35623570-elvin-shahsuvarli", linkLabel: "My Goodreads →" },
